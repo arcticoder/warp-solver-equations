@@ -33,7 +33,7 @@
 
 ## Inputs
 
-Copy or symlink all `.tex` files from the **warp-discretization** repo into an `inputs/` directory:
+Copy or symlink all `.tex` files from https://github.com/arcticoder/warp-discretization repo into an `inputs/` directory:
 
 -   `discretization.tex`
     
