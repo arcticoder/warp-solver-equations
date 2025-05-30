@@ -12,7 +12,7 @@
   Substitutes parsed stencil formulas into continuum equations \(\partial_t X = F(X,\partial_r X,\partial_\theta X)\) to build a Python function `F(X)`.
 - **RK4 embedding**:  
   Symbolically defines and expands the four RK4 stages:
-  ```python
+```python
   k1 = F(X_n)
   k2 = F(X_n + dt/2 * k1)
   k3 = F(X_n + dt/2 * k2)
@@ -71,7 +71,7 @@ python generate_solver_equations.py \
 
 -   **`solver_update.tex`**: a self-contained LaTeX file showing, for each evolved variable $X$:
     
-    ```latex
+```latex
     \[
       k_1^X = F\bigl(X^n,\partial_r X^n,\partial_\theta X^n\bigr)
     \]
@@ -82,7 +82,7 @@ python generate_solver_equations.py \
     \[
       X^{n+1} = X^n + \tfrac{\Delta t}{6}\bigl(k_1 + 2k_2 + 2k_3 + k_4\bigr)
     \]
-    ```
+```
     
 
 ## Dependence
