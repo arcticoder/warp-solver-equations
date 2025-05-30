@@ -1,0 +1,17 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage[margin=0.5in]{geometry}
+\begin{document}
+
+\section*{Finite Difference Stencil: 4th order derivative w.r.t. $theta$}
+
+% Original derivative: 2 dphi^{2} r^{2} \sin{\left(dphi^{2} \theta \right)} \cos{\left(dphi^{2} \theta \right)}
+% Variable: theta
+% Order: 4th order
+% Error order: O(h^4)
+
+\[
+2 dphi^{2} r^{2} \sin{\left(dphi^{2} \theta \right)} \cos{\left(dphi^{2} \theta \right)} \approx \frac{r^{2} \left(- 8 \sin^{2}{\left(dphi^{2} \left(h - \theta\right) \right)} + 8 \sin^{2}{\left(dphi^{2} \left(h + \theta\right) \right)} + \sin^{2}{\left(dphi^{2} \left(2 h - \theta\right) \right)} - \sin^{2}{\left(dphi^{2} \left(2 h + \theta\right) \right)}\right)}{12 h} \quad (O(h^4))
+\]
+
+\end{document}

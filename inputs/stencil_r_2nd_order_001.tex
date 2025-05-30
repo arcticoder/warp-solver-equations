@@ -1,0 +1,17 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage[margin=0.5in]{geometry}
+\begin{document}
+
+\section*{Finite Difference Stencil: 2nd order derivative w.r.t. $r$}
+
+% Original derivative: - bigr dr^{2} \frac{\partial}{\partial r} f{\left(r,t \right)} \left. \frac{d}{d \xi_{1}} \operatorname{bigl}{\left(\xi_{1} \right)} \right|_{\substack{ \xi_{1}=1 - bigr f{\left(r,t \right)} }} + 2 dtheta^{2} r + 2 r \sin^{2}{\left(dphi^{2} \theta \right)}
+% Variable: r
+% Order: 2nd order
+% Error order: O(h^2)
+
+\[
+- bigr dr^{2} \frac{\partial}{\partial r} f{\left(r,t \right)} \left. \frac{d}{d \xi_{1}} \operatorname{bigl}{\left(\xi_{1} \right)} \right|_{\substack{ \xi_{1}=1 - bigr f{\left(r,t \right)} }} + 2 dtheta^{2} r + 2 r \sin^{2}{\left(dphi^{2} \theta \right)} \approx \frac{- dr^{2} \operatorname{bigl}{\left(- bigr f{\left(- h + r,t \right)} + 1 \right)} + dr^{2} \operatorname{bigl}{\left(- bigr f{\left(h + r,t \right)} + 1 \right)} + 4 dtheta^{2} h r + 4 h r \sin^{2}{\left(dphi^{2} \theta \right)}}{2 h} \quad (O(h^2))
+\]
+
+\end{document}

@@ -1,0 +1,17 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage[margin=0.5in]{geometry}
+\begin{document}
+
+\section*{Finite Difference Stencil: 2nd order derivative w.r.t. $theta$}
+
+% Original derivative: 2 dphi^{2} r^{2} \sin{\left(dphi^{2} \theta \right)} \cos{\left(dphi^{2} \theta \right)}
+% Variable: theta
+% Order: 2nd order
+% Error order: O(h^2)
+
+\[
+2 dphi^{2} r^{2} \sin{\left(dphi^{2} \theta \right)} \cos{\left(dphi^{2} \theta \right)} \approx \frac{r^{2} \left(- \sin^{2}{\left(dphi^{2} \left(h - \theta\right) \right)} + \sin^{2}{\left(dphi^{2} \left(h + \theta\right) \right)}\right)}{2 h} \quad (O(h^2))
+\]
+
+\end{document}

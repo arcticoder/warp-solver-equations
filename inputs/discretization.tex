@@ -1,0 +1,38 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage[margin=0.5in]{geometry}
+\begin{document}
+
+\section*{Finite Difference Stencils}
+
+% 2nd order derivative w.r.t. r
+\[
+- bigr dr^{2} \frac{\partial}{\partial r} f{\left(r,t \right)} \left. \frac{d}{d \xi_{1}} \operatorname{bigl}{\left(\xi_{1} \right)} \right|_{\substack{ \xi_{1}=1 - bigr f{\left(r,t \right)} }} + 2 dtheta^{2} r + 2 r \sin^{2}{\left(dphi^{2} \theta \right)} \approx \frac{- dr^{2} \operatorname{bigl}{\left(- bigr f{\left(- h + r,t \right)} + 1 \right)} + dr^{2} \operatorname{bigl}{\left(- bigr f{\left(h + r,t \right)} + 1 \right)} + 4 dtheta^{2} h r + 4 h r \sin^{2}{\left(dphi^{2} \theta \right)}}{2 h} \quad (O(h^2))
+\]
+
+% 4th order derivative w.r.t. r
+\[
+- bigr dr^{2} \frac{\partial}{\partial r} f{\left(r,t \right)} \left. \frac{d}{d \xi_{1}} \operatorname{bigl}{\left(\xi_{1} \right)} \right|_{\substack{ \xi_{1}=1 - bigr f{\left(r,t \right)} }} + 2 dtheta^{2} r + 2 r \sin^{2}{\left(dphi^{2} \theta \right)} \approx \frac{dr^{2} \operatorname{bigl}{\left(- bigr f{\left(- 2 h + r,t \right)} + 1 \right)} - 8 dr^{2} \operatorname{bigl}{\left(- bigr f{\left(- h + r,t \right)} + 1 \right)} + 8 dr^{2} \operatorname{bigl}{\left(- bigr f{\left(h + r,t \right)} + 1 \right)} - dr^{2} \operatorname{bigl}{\left(- bigr f{\left(2 h + r,t \right)} + 1 \right)} + 24 dtheta^{2} h r + 24 h r \sin^{2}{\left(dphi^{2} \theta \right)}}{12 h} \quad (O(h^4))
+\]
+
+% 2nd order derivative w.r.t. theta
+\[
+2 dphi^{2} r^{2} \sin{\left(dphi^{2} \theta \right)} \cos{\left(dphi^{2} \theta \right)} \approx \frac{r^{2} \left(- \sin^{2}{\left(dphi^{2} \left(h - \theta\right) \right)} + \sin^{2}{\left(dphi^{2} \left(h + \theta\right) \right)}\right)}{2 h} \quad (O(h^2))
+\]
+
+% 4th order derivative w.r.t. theta
+\[
+2 dphi^{2} r^{2} \sin{\left(dphi^{2} \theta \right)} \cos{\left(dphi^{2} \theta \right)} \approx \frac{r^{2} \left(- 8 \sin^{2}{\left(dphi^{2} \left(h - \theta\right) \right)} + 8 \sin^{2}{\left(dphi^{2} \left(h + \theta\right) \right)} + \sin^{2}{\left(dphi^{2} \left(2 h - \theta\right) \right)} - \sin^{2}{\left(dphi^{2} \left(2 h + \theta\right) \right)}\right)}{12 h} \quad (O(h^4))
+\]
+
+% 2nd order derivative w.r.t. r
+\[
+a begin i m p t x \approx a begin i m p t x \quad (O(h^2))
+\]
+
+% 4th order derivative w.r.t. r
+\[
+a begin i m p t x \approx a begin i m p t x \quad (O(h^4))
+\]
+
+\end{document}
