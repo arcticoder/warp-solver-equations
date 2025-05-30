@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""
-Reads stencil .tex files and generates an RK4 time‐integration update formulas document (solver_update.tex).
+r"""
+Reads stencil .tex files and generates an RK4 time-integration update formulas document (solver_update.tex).
 
 This script:
 1. Parses finite difference stencil files to extract the spatial discretization expressions
@@ -56,6 +56,114 @@ def debug_print_stencil(name, stencil_data):
     print(f"Order: {stencil_data['order']}")
     print(f"Approximation: {stencil_data['approximation'][:100]}...")  # First 100 chars
 
+def clean_latex_expression(expr):
+    """
+    Clean up LaTeX expressions to follow proper formatting conventions:
+    1. Replace \operatorname{bigl}{\left( ... \right)} with \bigl( ... \bigr)
+    2. Normalize function calls like f{\left(- h + r,t \right)} to f(r - h, t)
+    3. Add proper math spacing
+    4. Use consistent variable notation
+    """
+    import re
+    
+    # Step 1: Replace \operatorname{bigl}{\left( with \bigl(
+    expr = re.sub(r'\\operatorname\{bigl\}\{\\left\(', r'\\bigl(', expr)
+    
+    # Step 2: Replace corresponding \right)} patterns
+    expr = re.sub(r'\\right\}\}', r'\\bigr)', expr)
+    expr = re.sub(r'\\right\}', r'\\bigr)', expr)
+    
+    # Fix any mismatched parentheses from the previous operations
+    expr = re.sub(r'\\bigl\(([^)]*)\s*\)\s*\+', r'\\bigl(\1\\bigr) +', expr)
+    
+    # Step 3: Clean up function calls
+    # Remove stray "bigr" before function names
+    expr = re.sub(r'\bbigr\s+f\{', 'f{', expr)
+    
+    # Handle f{\left(...\right)} patterns and clean up the arguments
+    def clean_function_call(match):
+        args = match.group(1)
+        cleaned_args = clean_function_args(args)
+        return f'f({cleaned_args})'
+    
+    # Match f{...} patterns with various LaTeX constructs inside
+    expr = re.sub(r'f\{\\left\(([^}]*)\)\\right\}', clean_function_call, expr)
+    expr = re.sub(r'f\{([^}]*)\}', clean_function_call, expr)
+    
+    # Step 4: Replace bare dtheta/dphi with d\theta/d\phi  
+    expr = re.sub(r'\bdtheta\b', r'd\\theta', expr)
+    expr = re.sub(r'\bdphi\b', r'd\\phi', expr)
+    
+    # Step 5: Fix spacing and formatting issues
+    # Fix dr^{2} and similar patterns
+    expr = re.sub(r'dr\^\{\{2\}\}', r'dr^{2}', expr)
+    expr = re.sub(r'dr\^\{(\d+)\}', r'dr^{\1}', expr)
+    
+    # Add proper spacing for mathematical expressions  
+    expr = re.sub(r'(\d+)\s*d\\theta\^?\{?2\}?', r'\1\\,d\\theta^{2}', expr)
+    expr = re.sub(r'(\d+)\s*h\s*r', r'\1\\,h\\,r', expr)
+    
+    # Fix spacing around operators
+    expr = re.sub(r'\s*\+\s*', ' + ', expr)
+    expr = re.sub(r'(?<!\\)\s*-\s*', ' - ', expr)  # Don't touch \, sequences
+    
+    # Add proper spacing after minus signs at the start of terms
+    expr = re.sub(r'(\+|\()\s*-\s*', r'\1-\\,', expr)
+    expr = re.sub(r'^-\s*', r'-\\,', expr)
+    
+    return expr
+
+def clean_function_args(args_str):
+    """
+    Clean up function arguments like '- h + r,t' to 'r - h, t'
+    Also handle patterns like '- 2 h + r,t' to 'r - 2h, t'
+    """
+    # Remove LaTeX commands that interfere with parsing
+    args_str = re.sub(r'\\left\(|\)\\right', '', args_str)
+    args_str = re.sub(r'\\left|\\right', '', args_str)
+    
+    # Split by comma to separate multiple arguments
+    args = [arg.strip() for arg in args_str.split(',')]
+    cleaned_args = []
+    
+    for arg in args:
+        # Remove any leading/trailing whitespace and extra parentheses
+        arg = arg.strip().strip('()')
+        
+        # Handle expressions like "- h + r" -> "r - h"  
+        # Pattern: optional minus, optional number, h, plus, r
+        if re.match(r'^-\s*(\d*)\s*h\s*\+\s*r$', arg):
+            match = re.match(r'^-\s*(\d*)\s*h\s*\+\s*r$', arg)
+            num = match.group(1).strip()
+            if num:
+                cleaned_args.append(f"r - {num}h")
+            else:
+                cleaned_args.append("r - h")
+        # Handle "h + r" -> "r + h" 
+        elif re.match(r'^(\d*)\s*h\s*\+\s*r$', arg):
+            match = re.match(r'^(\d*)\s*h\s*\+\s*r$', arg)
+            num = match.group(1).strip() if match else ""
+            if num:
+                cleaned_args.append(f"r + {num}h")
+            else:
+                cleaned_args.append("r + h")
+        # Handle "2 h + r" -> "r + 2h"
+        elif re.match(r'^(\d+)\s*h\s*\+\s*r$', arg):
+            match = re.match(r'^(\d+)\s*h\s*\+\s*r$', arg)
+            num = match.group(1)
+            cleaned_args.append(f"r + {num}h")
+        # Handle expressions like "h - \theta" -> "\theta - h"
+        elif re.match(r'^h\s*-\s*\\theta$', arg):
+            cleaned_args.append(r'\theta - h')
+        else:
+            # For other patterns, just clean up spacing and remove extra formatting
+            cleaned_arg = re.sub(r'\s+', ' ', arg.strip())
+            # Remove double parentheses if present
+            cleaned_arg = re.sub(r'^\(\s*(.+)\s*\)$', r'\1', cleaned_arg)
+            cleaned_args.append(cleaned_arg)
+    
+    return ', '.join(cleaned_args)
+
 def main():
     parser = argparse.ArgumentParser(
         description="Generate RK4 solver update LaTeX from stencil .tex files."
@@ -104,6 +212,7 @@ def main():
         out.write("\\usepackage[margin=0.5in]{geometry}\n")
         out.write("\\begin{document}\n\n")
         out.write("\\title{Warp Solver RK4 Time Integration Equations}\n")
+        out.write("\\author{}\n")  # Add blank author to fix compilation
         out.write("\\maketitle\n\n")
         
         for key, stencil_data in stencils.items():
@@ -118,10 +227,13 @@ def main():
                 out.write("\\textit{Placeholder stencil - no finite difference approximation available.}\n\n")
                 continue
             
+            # Clean up the LaTeX expression
+            cleaned_approx = clean_latex_expression(approx)
+            
             # RK4 stage 1: Use the finite difference approximation directly
             out.write("\\textbf{RK4 Stage 1:}\n")
             out.write("\\[\n")
-            out.write(f"k_1^{{{key}}} = {approx}\n")
+            out.write(f"k_1^{{{key}}} = {cleaned_approx}\n")
             out.write("\\]\n\n")
 
             # For stages 2-4, we'll use the functional form since expanding
@@ -146,7 +258,10 @@ def main():
             out.write("X^{n+1} = X^n + "
                      "\\frac{\\Delta t}{6} \\left(k_1^{" + key + "} + 2k_2^{" + key + "} + 2k_3^{" + key + "} + k_4^{" + key + "}\\right)\n")
             out.write("\\]\n\n")
-            out.write("\\pagebreak\n\n")
+            
+            # Only add pagebreak if not the last stencil
+            if key != list(stencils.keys())[-1]:
+                out.write("\\pagebreak\n\n")
 
         out.write("\\end{document}\n")
 

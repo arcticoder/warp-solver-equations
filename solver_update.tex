@@ -4,13 +4,14 @@
 \begin{document}
 
 \title{Warp Solver RK4 Time Integration Equations}
+\author{}
 \maketitle
 
 \section*{Stencil: r_2nd_order_001 (r, 2nd order)}
 
 \textbf{RK4 Stage 1:}
 \[
-k_1^{r_2nd_order_001} = \frac{- dr^{2} \operatorname{bigl}{\left(- bigr f{\left(- h + r,t \right)} + 1 \right)} + dr^{2} \operatorname{bigl}{\left(- bigr f{\left(h + r,t \right)} + 1 \right)} + 4 dtheta^{2} h r + 4 h r \sin^{2}{\left(dphi^{2} \theta \right)}}{2 h}
+k_1^{r_2nd_order_001} = \frac{ - dr^{2} \bigl(-\,f(r - h, t) + 1 \right)} + dr^{2} \bigl(-\,f(r + h, t) + 1 \right)} + 4\,d\theta^{2} h r + 4\,h\,r \sin^{2}{\left(d\phi^{2} \theta \right)}}{2 h}
 \]
 
 \textbf{RK4 Stage 2:}
@@ -43,7 +44,7 @@ X^{n+1} = X^n + \frac{\Delta t}{6} \left(k_1^{r_2nd_order_001} + 2k_2^{r_2nd_ord
 
 \textbf{RK4 Stage 1:}
 \[
-k_1^{r_4th_order_002} = \frac{dr^{2} \operatorname{bigl}{\left(- bigr f{\left(- 2 h + r,t \right)} + 1 \right)} - 8 dr^{2} \operatorname{bigl}{\left(- bigr f{\left(- h + r,t \right)} + 1 \right)} + 8 dr^{2} \operatorname{bigl}{\left(- bigr f{\left(h + r,t \right)} + 1 \right)} - dr^{2} \operatorname{bigl}{\left(- bigr f{\left(2 h + r,t \right)} + 1 \right)} + 24 dtheta^{2} h r + 24 h r \sin^{2}{\left(dphi^{2} \theta \right)}}{12 h}
+k_1^{r_4th_order_002} = \frac{dr^{2} \bigl(-\,f(r - 2h, t) + 1 \right)} - 8 dr^{2} \bigl(-\,f(r - h, t) + 1 \right)} + 8 dr^{2} \bigl(-\,f(r + h, t) + 1 \right)} - dr^{2} \bigl(-\,f(r + 2h, t) + 1 \right)} + 24\,d\theta^{2} h r + 24\,h\,r \sin^{2}{\left(d\phi^{2} \theta \right)}}{12 h}
 \]
 
 \textbf{RK4 Stage 2:}
@@ -76,7 +77,7 @@ X^{n+1} = X^n + \frac{\Delta t}{6} \left(k_1^{r_4th_order_002} + 2k_2^{r_4th_ord
 
 \textbf{RK4 Stage 1:}
 \[
-k_1^{theta_2nd_order_003} = \frac{r^{2} \left(- \sin^{2}{\left(dphi^{2} \left(h - \theta\right) \right)} + \sin^{2}{\left(dphi^{2} \left(h + \theta\right) \right)}\right)}{2 h}
+k_1^{theta_2nd_order_003} = \frac{r^{2} \left(-\,\sin^{2}{\left(d\phi^{2} \left(h - \theta\right) \right)} + \sin^{2}{\left(d\phi^{2} \left(h + \theta\right) \right)}\right)}{2 h}
 \]
 
 \textbf{RK4 Stage 2:}
@@ -105,7 +106,7 @@ X^{n+1} = X^n + \frac{\Delta t}{6} \left(k_1^{theta_2nd_order_003} + 2k_2^{theta
 
 \textbf{RK4 Stage 1:}
 \[
-k_1^{theta_4th_order_004} = \frac{r^{2} \left(- 8 \sin^{2}{\left(dphi^{2} \left(h - \theta\right) \right)} + 8 \sin^{2}{\left(dphi^{2} \left(h + \theta\right) \right)} + \sin^{2}{\left(dphi^{2} \left(2 h - \theta\right) \right)} - \sin^{2}{\left(dphi^{2} \left(2 h + \theta\right) \right)}\right)}{12 h}
+k_1^{theta_4th_order_004} = \frac{r^{2} \left(-\,8 \sin^{2}{\left(d\phi^{2} \left(h - \theta\right) \right)} + 8 \sin^{2}{\left(d\phi^{2} \left(h + \theta\right) \right)} + \sin^{2}{\left(d\phi^{2} \left(2 h - \theta\right) \right)} - \sin^{2}{\left(d\phi^{2} \left(2 h + \theta\right) \right)}\right)}{12 h}
 \]
 
 \textbf{RK4 Stage 2:}
@@ -127,7 +128,5 @@ k_4^{theta_4th_order_004} = F_{theta_4th_order_004}\left(X^n + \Delta t \, k_3\r
 \[
 X^{n+1} = X^n + \frac{\Delta t}{6} \left(k_1^{theta_4th_order_004} + 2k_2^{theta_4th_order_004} + 2k_3^{theta_4th_order_004} + k_4^{theta_4th_order_004}\right)
 \]
-
-\pagebreak
 
 \end{document}
