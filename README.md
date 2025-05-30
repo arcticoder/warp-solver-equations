@@ -57,9 +57,7 @@ git clone https://github.com/arcticoder/warp-solver-equations.git
 cd warp-solver-equations
 
 # Place or link the stencil .tex files into ./inputs
-python generate_solver_equations.py \
-  --input-dir inputs \
-  --output solver_update.tex
+python scripts/generate_solver_equations.py --input-dir inputs --output solver_update.tex
 ```
 
 -   **`--input-dir`**: directory containing all `*.tex` stencil files.
