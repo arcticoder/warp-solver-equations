@@ -1,132 +1,42 @@
-\documentclass{article}
-\usepackage{amsmath}
-\usepackage[margin=0.5in]{geometry}
-\begin{document}
+% RK4 Solver Update Equations
 
-\title{Warp Solver RK4 Time Integration Equations}
-\author{}
-\maketitle
-
-\section*{Stencil: r_2nd_order_001 (r, 2nd order)}
-
-\textbf{RK4 Stage 1:}
+% Stage k1: Spatial discretization
+% r derivative (2nd order)
 \[
-k_1^{r_2nd_order_001} = \frac{ - dr^{2} \bigl(-\,f(r - h, t) + 1 \right)} + dr^{2} \bigl(-\,f(r + h, t) + 1 \right)} + 4\,d\theta^{2} h r + 4\,h\,r \sin^{2}{\left(d\phi^{2} \theta \right)}}{2 h}
+k_1^{(r)} = \Delta t \cdot \left( a begin i m p t x \right)
 \]
 
-\textbf{RK4 Stage 2:}
+% r derivative (4th order)
 \[
-k_2^{r_2nd_order_001} = F_{r_2nd_order_001}\left(X^n + \frac{\Delta t}{2} k_1\right)
+k_1^{(r)} = \Delta t \cdot \left( a begin i m p t x \right)
 \]
 
-\textbf{RK4 Stage 3:}
+% theta derivative (2nd order)
 \[
-k_3^{r_2nd_order_001} = F_{r_2nd_order_001}\left(X^n + \frac{\Delta t}{2} k_2\right)
+k_1^{(theta)} = \Delta t \cdot \left( \frac{r^{2} \left(- \sin^{2}{\left(dphi^{2} \left(h - \theta\right) \right)} + \sin^{2}{\left(dphi^{2} \left(h + \theta\right) \right)}\right)}{2 h} \right)
 \]
 
-\textbf{RK4 Stage 4:}
+% theta derivative (4th order)
 \[
-k_4^{r_2nd_order_001} = F_{r_2nd_order_001}\left(X^n + \Delta t \, k_3\right)
+k_1^{(theta)} = \Delta t \cdot \left( \frac{r^{2} \left(- 8 \sin^{2}{\left(dphi^{2} \left(h - \theta\right) \right)} + 8 \sin^{2}{\left(dphi^{2} \left(h + \theta\right) \right)} + \sin^{2}{\left(dphi^{2} \left(2 h - \theta\right) \right)} - \sin^{2}{\left(dphi^{2} \left(2 h + \theta\right) \right)}\right)}{12 h} \right)
 \]
 
-\textbf{Update:}
+% Stage k2: Half-step using k1
 \[
-X^{n+1} = X^n + \frac{\Delta t}{6} \left(k_1^{r_2nd_order_001} + 2k_2^{r_2nd_order_001} + 2k_3^{r_2nd_order_001} + k_4^{r_2nd_order_001}\right)
+k_2 = \Delta t \cdot F\left(X^n + \frac{k_1}{2}\right)
 \]
 
-\pagebreak
-
-\section*{Stencil: r_2nd_order_005 (r, 2nd order)}
-
-\textit{Placeholder stencil - no finite difference approximation available.}
-
-\section*{Stencil: r_4th_order_002 (r, 4th order)}
-
-\textbf{RK4 Stage 1:}
+% Stage k3: Half-step using k2
 \[
-k_1^{r_4th_order_002} = \frac{dr^{2} \bigl(-\,f(r - 2h, t) + 1 \right)} - 8 dr^{2} \bigl(-\,f(r - h, t) + 1 \right)} + 8 dr^{2} \bigl(-\,f(r + h, t) + 1 \right)} - dr^{2} \bigl(-\,f(r + 2h, t) + 1 \right)} + 24\,d\theta^{2} h r + 24\,h\,r \sin^{2}{\left(d\phi^{2} \theta \right)}}{12 h}
+k_3 = \Delta t \cdot F\left(X^n + \frac{k_2}{2}\right)
 \]
 
-\textbf{RK4 Stage 2:}
+% Stage k4: Full step using k3
 \[
-k_2^{r_4th_order_002} = F_{r_4th_order_002}\left(X^n + \frac{\Delta t}{2} k_1\right)
+k_4 = \Delta t \cdot F\left(X^n + k_3\right)
 \]
 
-\textbf{RK4 Stage 3:}
+% Final RK4 update
 \[
-k_3^{r_4th_order_002} = F_{r_4th_order_002}\left(X^n + \frac{\Delta t}{2} k_2\right)
+X^{n+1} = X^n + \frac{1}{6}\left(k_1 + 2k_2 + 2k_3 + k_4\right)
 \]
-
-\textbf{RK4 Stage 4:}
-\[
-k_4^{r_4th_order_002} = F_{r_4th_order_002}\left(X^n + \Delta t \, k_3\right)
-\]
-
-\textbf{Update:}
-\[
-X^{n+1} = X^n + \frac{\Delta t}{6} \left(k_1^{r_4th_order_002} + 2k_2^{r_4th_order_002} + 2k_3^{r_4th_order_002} + k_4^{r_4th_order_002}\right)
-\]
-
-\pagebreak
-
-\section*{Stencil: r_4th_order_006 (r, 4th order)}
-
-\textit{Placeholder stencil - no finite difference approximation available.}
-
-\section*{Stencil: theta_2nd_order_003 (theta, 2nd order)}
-
-\textbf{RK4 Stage 1:}
-\[
-k_1^{theta_2nd_order_003} = \frac{r^{2} \left(-\,\sin^{2}{\left(d\phi^{2} \left(h - \theta\right) \right)} + \sin^{2}{\left(d\phi^{2} \left(h + \theta\right) \right)}\right)}{2 h}
-\]
-
-\textbf{RK4 Stage 2:}
-\[
-k_2^{theta_2nd_order_003} = F_{theta_2nd_order_003}\left(X^n + \frac{\Delta t}{2} k_1\right)
-\]
-
-\textbf{RK4 Stage 3:}
-\[
-k_3^{theta_2nd_order_003} = F_{theta_2nd_order_003}\left(X^n + \frac{\Delta t}{2} k_2\right)
-\]
-
-\textbf{RK4 Stage 4:}
-\[
-k_4^{theta_2nd_order_003} = F_{theta_2nd_order_003}\left(X^n + \Delta t \, k_3\right)
-\]
-
-\textbf{Update:}
-\[
-X^{n+1} = X^n + \frac{\Delta t}{6} \left(k_1^{theta_2nd_order_003} + 2k_2^{theta_2nd_order_003} + 2k_3^{theta_2nd_order_003} + k_4^{theta_2nd_order_003}\right)
-\]
-
-\pagebreak
-
-\section*{Stencil: theta_4th_order_004 (theta, 4th order)}
-
-\textbf{RK4 Stage 1:}
-\[
-k_1^{theta_4th_order_004} = \frac{r^{2} \left(-\,8 \sin^{2}{\left(d\phi^{2} \left(h - \theta\right) \right)} + 8 \sin^{2}{\left(d\phi^{2} \left(h + \theta\right) \right)} + \sin^{2}{\left(d\phi^{2} \left(2 h - \theta\right) \right)} - \sin^{2}{\left(d\phi^{2} \left(2 h + \theta\right) \right)}\right)}{12 h}
-\]
-
-\textbf{RK4 Stage 2:}
-\[
-k_2^{theta_4th_order_004} = F_{theta_4th_order_004}\left(X^n + \frac{\Delta t}{2} k_1\right)
-\]
-
-\textbf{RK4 Stage 3:}
-\[
-k_3^{theta_4th_order_004} = F_{theta_4th_order_004}\left(X^n + \frac{\Delta t}{2} k_2\right)
-\]
-
-\textbf{RK4 Stage 4:}
-\[
-k_4^{theta_4th_order_004} = F_{theta_4th_order_004}\left(X^n + \Delta t \, k_3\right)
-\]
-
-\textbf{Update:}
-\[
-X^{n+1} = X^n + \frac{\Delta t}{6} \left(k_1^{theta_4th_order_004} + 2k_2^{theta_4th_order_004} + 2k_3^{theta_4th_order_004} + k_4^{theta_4th_order_004}\right)
-\]
-
-\end{document}

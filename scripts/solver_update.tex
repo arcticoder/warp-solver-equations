@@ -1,0 +1,99 @@
+\section*{Stencil: r_2nd_order_001}
+
+\[
+k_1^{r_2nd_order_001} = \frac{ - dr^{2} \operatorname{bigl}{\left(-\,\,f(r - h, t) + 1 \right)} + dr^{2} \operatorname{bigl}{\left(-\,\,f(r + h, t) + 1 \right)} + 4\,d\theta^{2} h r + 4\,h\,r \sin^{2}{\left(d\phi^{2} \theta \right)}}{2 h}
+\]
+
+\[
+k_2^{r_2nd_order_001} = F_{r_2nd_order_001}\left(X^n + \frac{\Delta t}{2} k_1\right)
+\]
+
+\[
+k_3^{r_2nd_order_001} = F_{r_2nd_order_001}\left(X^n + \frac{\Delta t}{2} k_2\right)
+\]
+
+\[
+k_4^{r_2nd_order_001} = F_{r_2nd_order_001}\left(X^n + \Delta t \, k_3\right)
+\]
+
+\[
+X^{n+1} = X^n + \frac{\Delta t}{6} \left(k_1^{r_2nd_order_001} + 2k_2^{r_2nd_order_001} + 2k_3^{r_2nd_order_001} + k_4^{r_2nd_order_001}\right)
+\]
+
+
+\section*{Stencil: r_2nd_order_005}
+
+% Placeholder stencil - no finite difference approximation available
+
+\section*{Stencil: r_4th_order_002}
+
+\[
+k_1^{r_4th_order_002} = \frac{dr^{2} \operatorname{bigl}{\left(-\,\,f(r - 2h, t) + 1 \right)} - 8 dr^{2} \operatorname{bigl}{\left(-\,\,f(r - h, t) + 1 \right)} + 8 dr^{2} \operatorname{bigl}{\left(-\,\,f(r + h, t) + 1 \right)} - dr^{2} \operatorname{bigl}{\left(-\,\,f(r + 2h, t) + 1 \right)} + 24\,d\theta^{2} h r + 24\,h\,r \sin^{2}{\left(d\phi^{2} \theta \right)}}{12 h}
+\]
+
+\[
+k_2^{r_4th_order_002} = F_{r_4th_order_002}\left(X^n + \frac{\Delta t}{2} k_1\right)
+\]
+
+\[
+k_3^{r_4th_order_002} = F_{r_4th_order_002}\left(X^n + \frac{\Delta t}{2} k_2\right)
+\]
+
+\[
+k_4^{r_4th_order_002} = F_{r_4th_order_002}\left(X^n + \Delta t \, k_3\right)
+\]
+
+\[
+X^{n+1} = X^n + \frac{\Delta t}{6} \left(k_1^{r_4th_order_002} + 2k_2^{r_4th_order_002} + 2k_3^{r_4th_order_002} + k_4^{r_4th_order_002}\right)
+\]
+
+
+\section*{Stencil: r_4th_order_006}
+
+% Placeholder stencil - no finite difference approximation available
+
+\section*{Stencil: theta_2nd_order_003}
+
+\[
+k_1^{theta_2nd_order_003} = \frac{r^{2} \left(-\,\sin^{2}{\left(d\phi^{2} \left(h - \theta\right) \right)} + \sin^{2}{\left(d\phi^{2} \left(h + \theta\right) \right)}\right)}{2 h}
+\]
+
+\[
+k_2^{theta_2nd_order_003} = F_{theta_2nd_order_003}\left(X^n + \frac{\Delta t}{2} k_1\right)
+\]
+
+\[
+k_3^{theta_2nd_order_003} = F_{theta_2nd_order_003}\left(X^n + \frac{\Delta t}{2} k_2\right)
+\]
+
+\[
+k_4^{theta_2nd_order_003} = F_{theta_2nd_order_003}\left(X^n + \Delta t \, k_3\right)
+\]
+
+\[
+X^{n+1} = X^n + \frac{\Delta t}{6} \left(k_1^{theta_2nd_order_003} + 2k_2^{theta_2nd_order_003} + 2k_3^{theta_2nd_order_003} + k_4^{theta_2nd_order_003}\right)
+\]
+
+
+\section*{Stencil: theta_4th_order_004}
+
+\[
+k_1^{theta_4th_order_004} = \frac{r^{2} \left(-\,8 \sin^{2}{\left(d\phi^{2} \left(h - \theta\right) \right)} + 8 \sin^{2}{\left(d\phi^{2} \left(h + \theta\right) \right)} + \sin^{2}{\left(d\phi^{2} \left(2 h - \theta\right) \right)} - \sin^{2}{\left(d\phi^{2} \left(2 h + \theta\right) \right)}\right)}{12 h}
+\]
+
+\[
+k_2^{theta_4th_order_004} = F_{theta_4th_order_004}\left(X^n + \frac{\Delta t}{2} k_1\right)
+\]
+
+\[
+k_3^{theta_4th_order_004} = F_{theta_4th_order_004}\left(X^n + \frac{\Delta t}{2} k_2\right)
+\]
+
+\[
+k_4^{theta_4th_order_004} = F_{theta_4th_order_004}\left(X^n + \Delta t \, k_3\right)
+\]
+
+\[
+X^{n+1} = X^n + \frac{\Delta t}{6} \left(k_1^{theta_4th_order_004} + 2k_2^{theta_4th_order_004} + 2k_3^{theta_4th_order_004} + k_4^{theta_4th_order_004}\right)
+\]
+
