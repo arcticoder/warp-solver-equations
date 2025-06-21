@@ -1,8 +1,19 @@
-{
-  "folders": [
+{  "folders": [
     {
       "path": ".",
       "name": "warp-solver-equations"
+    },
+    {
+      "name": "Warp Signature Workflow",
+      "path": "../warp-signature-workflow"
+    },
+    {
+      "name": "Warp Discretization",
+      "path": "../warp-discretization"
+    },
+    {
+      "name": "Warp Core - Main",
+      "path": "../warp-core"
     }
   ],
   "extensions": {
