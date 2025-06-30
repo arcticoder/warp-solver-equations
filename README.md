@@ -69,7 +69,7 @@ python scripts/generate_solver_equations.py --input-dir inputs --output solver_u
 
 -   **`solver_update.tex`**: a self-contained LaTeX file showing, for each evolved variable $X$:
     
-```latex
+```math
     \[
       k_1^X = F\bigl(X^n,\partial_r X^n,\partial_\theta X^n\bigr)
     \]
